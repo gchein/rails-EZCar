@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_04_155135) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_04_185502) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -37,7 +37,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_04_155135) do
     t.string "color"
     t.string "license_plate"
     t.text "description"
-    t.boolean "availability"
+    t.boolean "availability", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "daily_price"
