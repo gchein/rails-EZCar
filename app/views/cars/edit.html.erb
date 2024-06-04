@@ -1,0 +1,14 @@
+<h1>Edit my car</h1>
+
+<%= simple_form_for(@car) do |f| %>
+  <%= f.input :brand %>
+  <%= f.input :model %>
+  <%= f.input :year %>
+  <%= f.input :category %>
+  <%= f.input :mileage %>
+  <%= f.input :color %>
+  <%= f.input :license_plate %>
+  <%= f.input :description %>
+  <%= f.input :availability %>
+  <%= f.submit %>
+<% end %>
