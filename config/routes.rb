@@ -9,5 +9,5 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  resources :cars, only: %i[show destroy]
+  resources :cars, only: %i[index show destroy]
 end
