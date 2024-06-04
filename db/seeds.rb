@@ -11,12 +11,6 @@ require 'faker'
 require 'open-uri'
 require 'json'
 
-
-puts "Cleaning listings database..."
-Listing.destroy_all
-puts "Done!"
-
-
 puts "Cleaning car database..."
 Car.destroy_all
 puts "Done!"
