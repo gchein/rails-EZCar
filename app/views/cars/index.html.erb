@@ -1,5 +1,5 @@
 <ul>
   <% @cars.each do |car| %>
-    <li><%= car.model %></li>
+    <li><%=link_to car.model, car_path(car) %></li>
   <% end %>
 </ul>

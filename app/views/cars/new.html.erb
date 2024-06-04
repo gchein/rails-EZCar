@@ -1,0 +1,14 @@
+<div class="container my-5">
+  <%= simple_form_for @car do |f| %>
+    <%= f.input :brand %>
+    <%= f.input :model %>
+    <%= f.input :year, hint: 'If you do not input the year, your car may not appear on certain filtered searches' %>
+    <%= f.input :category %>
+    <%= f.input :mileage %>
+    <%= f.input :color %>
+    <%= f.input :license_plate %>
+    <%= f.input :description %>
+    <%= f.input :daily_price, hint: 'Price in cents' %>
+    <%= f.button :submit, class: "btn btn-primary mt-3" %>
+  <% end %>
+</div>
