@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_04_143445) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_04_155135) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,18 +40,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_04_143445) do
     t.boolean "availability"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["owner_id"], name: "index_cars_on_owner_id"
-  end
-
-  create_table "listings", force: :cascade do |t|
-    t.bigint "car_id", null: false
-    t.date "start_date"
-    t.date "end_date"
     t.integer "daily_price"
-    t.string "location"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["car_id"], name: "index_listings_on_car_id"
+    t.index ["owner_id"], name: "index_cars_on_owner_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -71,5 +61,4 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_04_143445) do
   add_foreign_key "bookings", "cars"
   add_foreign_key "bookings", "users", column: "renter_id"
   add_foreign_key "cars", "users", column: "owner_id"
-  add_foreign_key "listings", "cars"
 end
