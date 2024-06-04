@@ -49,7 +49,7 @@ owners_index = (1..User.all.count).to_a.sample(20)
 puts "Creating cars..."
 owners_index.each do |i|
 
-  owner = User.find(i)
+  owner = User.all[i]
 
   current_page += page_jump
 
@@ -70,6 +70,7 @@ owners_index.each do |i|
   license_plate = Faker::Vehicle.license_plate
   description = car_hash['make_model_trim']['description']
   availability = true
+  daily_price = 10000
 
   new_car_hash = {
                     brand:,
@@ -80,7 +81,8 @@ owners_index.each do |i|
                     color:,
                     license_plate:,
                     description:,
-                    availability:
+                    availability:,
+                    daily_price:
                     }
 
 
