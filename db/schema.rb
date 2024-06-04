@@ -10,9 +10,49 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_03_193555) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_04_143445) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bookings", force: :cascade do |t|
+    t.bigint "car_id", null: false
+    t.bigint "renter_id", null: false
+    t.date "start_date"
+    t.date "end_date"
+    t.integer "total_cost"
+    t.boolean "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["car_id"], name: "index_bookings_on_car_id"
+    t.index ["renter_id"], name: "index_bookings_on_renter_id"
+  end
+
+  create_table "cars", force: :cascade do |t|
+    t.bigint "owner_id", null: false
+    t.string "brand"
+    t.string "model"
+    t.integer "year"
+    t.string "category"
+    t.integer "mileage"
+    t.string "color"
+    t.string "license_plate"
+    t.text "description"
+    t.boolean "availability"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_id"], name: "index_cars_on_owner_id"
+  end
+
+  create_table "listings", force: :cascade do |t|
+    t.bigint "car_id", null: false
+    t.date "start_date"
+    t.date "end_date"
+    t.integer "daily_price"
+    t.string "location"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["car_id"], name: "index_listings_on_car_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -28,4 +68,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_03_193555) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "bookings", "cars"
+  add_foreign_key "bookings", "users", column: "renter_id"
+  add_foreign_key "cars", "users", column: "owner_id"
+  add_foreign_key "listings", "cars"
 end
