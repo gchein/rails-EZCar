@@ -5,4 +5,7 @@ class CarsControllerTest < ActionDispatch::IntegrationTest
     get cars_show_url
     assert_response :success
   end
+  # test "the truth" do
+  #   assert true
+  # end
 end
