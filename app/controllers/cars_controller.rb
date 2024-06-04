@@ -1,5 +1,10 @@
 class CarsController < ApplicationController
   before_action :set_car, only: %i[destroy]
+
+  def index
+    @cars = Car.all
+  end
+
   def destroy
     @car.destroy
 
