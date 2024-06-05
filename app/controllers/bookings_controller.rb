@@ -1,6 +1,7 @@
 class BookingsController < ApplicationController
+  before_action :set_booking, only: %i[destroy edit update]
   before_action :set_car, only: %i[new create]
-  before_action :set_booking, only: %i[detroy edit update]
+
   def new
     @booking = Booking.new
   end
@@ -29,6 +30,11 @@ class BookingsController < ApplicationController
   end
 
   def update
+    @car = @booking.car
+    @number_of_days = (Date.parse(params[:booking][:end_date]).to_date - Date.parse(params[:booking][:start_date]).to_date).to_i
+    @total_cost = @number_of_days * @car.daily_price / 100
+    @booking.total_cost = @total_cost
+
     if @booking.update(booking_params)
       redirect_to profile_path, notice: 'Booking successfully updated.'
     else
