@@ -1,7 +1,19 @@
 class BookingsController < ApplicationController
-  before_action :set_booking, only: %i[detroy]
+  before_action :set_booking, only: %i[detroy edit update]
+
   def destroy
     @booking.destroy
+  end
+
+  def edit
+  end
+
+  def update
+    if @booking.update(booking_params)
+      redirect_to profile_path, notice: 'Booking successfully updated.'
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   private
@@ -9,5 +21,9 @@ class BookingsController < ApplicationController
   def set_booking
     @booking = Booking.find(params[:id])
     redirect_to bookings_path, status: :see_other
+  end
+
+  def booking_params
+    params.require(:booking).permit(:start_date, :end_date)
   end
 end
