@@ -6,9 +6,9 @@ class BookingsController < ApplicationController
 
   def update
     if @booking.update(booking_params)
-      redirect_to @booking, notice: 'Booking successfully updated.'
+      redirect_to profile_path, notice: 'Booking successfully updated.'
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
