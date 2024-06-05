@@ -3,6 +3,7 @@ class BookingsController < ApplicationController
 
   def destroy
     @booking.destroy
+    redirect_to profile_path, status: :see_other
   end
 
   def edit
@@ -20,7 +21,6 @@ class BookingsController < ApplicationController
 
   def set_booking
     @booking = Booking.find(params[:id])
-    redirect_to bookings_path, status: :see_other
   end
 
   def booking_params
