@@ -1,0 +1,12 @@
+<div class="container mt-3">
+  <h1><%= @user.first_name %>'s Profile</h1>
+
+  <h3 class="my-3">Rentals</h3>
+  <% @user.bookings_as_renter.each do |booking| %>
+    <div class="card mb-3">
+      <p><%= booking.car.brand %> <%= booking.car.model %></p>
+      <p>From <%= booking.start_date.strftime("%d/%b/%Y") %> to <%= booking.end_date.strftime("%d/%b/%Y") %> (<%= booking.duration %> days)</p>
+      <p>Total Cost: $<%= booking.total_cost %></p>
+    </div>
+  <% end %>
+</div>
