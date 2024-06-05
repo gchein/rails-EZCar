@@ -9,6 +9,6 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   resources :cars
-  resources :bookings, only: %i[edit update]
+  resources :bookings, only: %i[new create edit update destroy]
   get 'profile', to: 'users#profile'
 end

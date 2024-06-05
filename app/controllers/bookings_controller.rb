@@ -1,5 +1,10 @@
 class BookingsController < ApplicationController
-  before_action :set_booking, only: %i[edit update]
+  before_action :set_booking, only: %i[detroy edit update]
+
+  def destroy
+    @booking.destroy
+    redirect_to profile_path, status: :see_other
+  end
 
   def edit
   end
