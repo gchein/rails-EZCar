@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get 'bookings/edit'
-  get 'bookings/update'
   devise_for :users
   root to: "pages#home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -12,4 +10,5 @@ Rails.application.routes.draw do
   # root "posts#index"
   resources :cars
   resources :bookings, only: %i[edit update]
+  get 'profile', to: 'users#profile'
 end
