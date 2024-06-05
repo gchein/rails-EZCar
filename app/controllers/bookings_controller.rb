@@ -10,14 +10,20 @@ class BookingsController < ApplicationController
     @booking = Booking.new(booking_params)
     @booking.car = @car
     @booking.renter = current_user
-    @number_of_days = (Date.parse(params[:booking][:end_date]).to_date - Date.parse(params[:booking][:start_date]).to_date).to_i
-    @total_cost = @number_of_days * @car.daily_price / 100
-    @booking.total_cost = @total_cost
+
+    @start_date = @booking.start_date
+    @end_date = @booking.end_date
+
+    unless @start_date.nil?
+      @number_of_days = (@end_date - @start_date).to_i
+      @total_cost = @number_of_days * @car.daily_price / 100
+      @booking.total_cost = @total_cost
+    end
 
     if @booking.save
       redirect_to profile_path, notice: 'Booking successfully created.'
     else
-      render :new, status: :unprocessable_entity
+      render 'cars/show', status: :unprocessable_entity
     end
   end
 
