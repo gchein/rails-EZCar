@@ -7,6 +7,8 @@
       <p><%= booking.car.brand %> <%= booking.car.model %></p>
       <p>From <%= booking.start_date.strftime("%d/%b/%Y") %> to <%= booking.end_date.strftime("%d/%b/%Y") %> (<%= booking.duration %> days)</p>
       <p>Total Cost: $<%= booking.total_cost %></p>
+      <%= link_to 'Edit this booking', edit_booking_path(booking) %>
+      <%= link_to 'Delete this booking', booking_path(booking), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
     </div>
   <% end %>
 </div>
