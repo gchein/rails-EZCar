@@ -1,6 +1,27 @@
-<h1><%= @car.year %> <%= @car.brand %> <%= @car.model%></h1>
-<p><strong>Type:</strong> <%= @car.category %></p>
-<p><strong>Color:</strong> <%= @car.color %></p>
-<p><strong>Mileage:</strong> <%= @car.mileage %></p>
-<p><strong>Owner:</strong> <%= @car.owner.first_name %> <%= @car.owner.last_name %></p>
-<p><strong>Description:</strong> <%= @car.description %></p>
+
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-6">
+      <h1><%= @car.year %> <%= @car.brand %> <%= @car.model%></h1>
+      <p><strong>Type:</strong> <%= @car.category %></p>
+      <p><strong>Color:</strong> <%= @car.color %></p>
+      <p><strong>Mileage:</strong> <%= @car.mileage %></p>
+      <p><strong>Owner:</strong> <%= @car.owner.first_name %> <%= @car.owner.last_name %></p>
+      <p><strong>Description:</strong> <%= @car.description %></p>
+    </div>
+    <div class="col-6">
+      <div class='card p-3'>
+        <h3 class='mb-3'>Make a Booking</h3>
+        <%= simple_form_for [@car, @booking] do |f| %>
+          <%= f.input :start_date, as: :string, input_html: { data: { controller: "datepicker" } }%>
+          <%= f.input :end_date, as: :string, input_html: { data: { controller: "datepicker" } } %>
+          <%= f.submit "Make Booking", class: "btn btn-primary" %>
+        <% end %>
+    </div>
+
+  </div>
+
+
+
+  </div>
+</div>
