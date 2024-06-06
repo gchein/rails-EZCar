@@ -9,8 +9,9 @@
       <p>From <%= booking.start_date.strftime("%d/%b/%Y") %> to <%= booking.end_date.strftime("%d/%b/%Y") %> (<%= booking.duration %> days)</p>
       <p>Total Cost: $<%= booking.total_cost %></p>
       <div class="d-flex">
-        <%= link_to 'Edit this booking', edit_booking_path(booking), class: 'btn btn-primary' %>
-        <%= link_to 'Delete this booking', booking_path(booking), class: 'btn btn-danger ms-3 rounded-3 text-white', data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
+        <span class = '<%= rental_status(booking.status)%> rounded-3 mx-3 text-white'><%= booking.status.capitalize %></span>
+        <%= link_to 'Edit this booking', edit_booking_path(booking), class: 'btn btn-primary rounded-3 text-white' %>
+        <%= link_to 'Delete this booking', booking_path(booking), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger ms-3 rounded-3 text-white' %>
       </div>
     </div>
   <% end %>
