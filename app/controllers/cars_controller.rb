@@ -22,7 +22,9 @@ class CarsController < ApplicationController
     @markers = @cars.geocoded.map do |car|
       {
         lat: car.latitude,
-        lng: car.longitude
+        lng: car.longitude,
+        info_window_html: render_to_string(partial: "info_window", locals: { car: }),
+        car_mark_html: render_to_string(partial: "car_mark")
       }
     end
   end
