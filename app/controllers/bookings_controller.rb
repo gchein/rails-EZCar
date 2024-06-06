@@ -37,7 +37,20 @@ class BookingsController < ApplicationController
 
   def update
     @car = @booking.car
-    @number_of_days = (Date.parse(params[:booking][:end_date]).to_date - Date.parse(params[:booking][:start_date]).to_date).to_i
+
+    if params[:booking].key?(:start_date)
+      @start_date = Date.parse(params[:booking][:start_date]).to_date
+    else
+      @start_date = @booking.start_date
+    end
+
+    if params[:booking].key?(:end_date)
+      @end_date = Date.parse(params[:booking][:end_date]).to_date
+    else
+      @end_date = @booking.end_date
+    end
+
+    @number_of_days = (@end_date - @start_date).to_i
     @total_cost = @number_of_days * @car.daily_price / 100
     @booking.total_cost = @total_cost
 
@@ -59,6 +72,6 @@ class BookingsController < ApplicationController
   end
 
   def booking_params
-    params.require(:booking).permit(:start_date, :end_date)
+    params.require(:booking).permit(:start_date, :end_date, :status)
   end
 end

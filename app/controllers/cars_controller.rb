@@ -7,6 +7,7 @@ class CarsController < ApplicationController
 
   def create
     @car = Car.new(car_params)
+    @car.daily_price = @car.daily_price * 100
     @user = current_user
     @car.owner = @user
 
@@ -38,6 +39,7 @@ class CarsController < ApplicationController
 
   def update
     @car = Car.update(car_params)
+    @car.daily_price = @car.daily_price * 100
     redirect_to profile_path
   end
 

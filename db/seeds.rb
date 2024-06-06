@@ -56,10 +56,17 @@ current_page = 1
 
 owners_index = (0..User.all.count - 1).to_a.sample(20)
 
+address_one = 'Rua Visconde De Pirajá '
+address_two = ', Ipanema, Rio de Janeiro - Rio de Janeiro, Brasil'
+address_num = 0
+
+
 puts "Creating cars..."
 owners_index.each do |i|
 
   owner = User.all[i]
+  address_num += 20
+  address = "#{address_one}#{address_num}#{address_two}"
 
   current_page += page_jump
 
@@ -91,14 +98,15 @@ owners_index.each do |i|
                     license_plate:,
                     description:,
                     availability:,
-                    daily_price:
+                    daily_price:,
+                    address:
                   }
 
 
   new_car = Car.new(new_car_hash)
   new_car.owner = owner
 
-  puts "Seeding #{brand} #{model} from page #{current_page}"
+  puts "Seeding #{brand} #{model} from page #{current_page}, on address: #{address}"
   new_car.save!
 end
 puts "Done!"

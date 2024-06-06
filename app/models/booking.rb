@@ -1,4 +1,6 @@
 class Booking < ApplicationRecord
+  enum status: { pending: 0, active: 1, archived: 2 }
+
   belongs_to :car
   belongs_to :renter, class_name: "User"
 
