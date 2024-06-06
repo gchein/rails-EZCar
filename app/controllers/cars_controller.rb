@@ -18,6 +18,7 @@ class CarsController < ApplicationController
   end
 
   def index
+    @car = Car.new
     @cars = Car.all.order("id")
     @markers = @cars.geocoded.map do |car|
       {
