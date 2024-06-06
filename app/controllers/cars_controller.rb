@@ -24,7 +24,7 @@ class CarsController < ApplicationController
         lat: car.latitude,
         lng: car.longitude,
         info_window_html: render_to_string(partial: "info_window", locals: { car: }),
-        car_mark_html: render_to_string(partial: "car_mark")
+        car_mark_html: render_to_string(partial: "car_mark", locals: { car: })
       }
     end
   end
@@ -51,7 +51,7 @@ class CarsController < ApplicationController
 
   def car_params
     params.require(:car).permit(:brand, :model, :year, :category, :mileage,
-                                :color, :license_plate, :description, :daily_price, :availability)
+                                :color, :license_plate, :description, :daily_price, :availability, :address)
   end
 
   def set_car
