@@ -6,10 +6,6 @@ class Booking < ApplicationRecord
 
   validates :start_date, :end_date, presence: true
 
-  def set_default_status
-    self.status ||= :pending
-  end
-
   def duration
     (end_date - start_date).to_i
   end
