@@ -14,7 +14,7 @@ class BookingsController < ApplicationController
     @start_date = @booking.start_date
     @end_date = @booking.end_date
 
-    unless @start_date.nil?
+    unless @start_date.nil? || @end_date.nil?
       @number_of_days = (@end_date - @start_date).to_i
       @total_cost = @number_of_days * @car.daily_price / 100
       @booking.total_cost = @total_cost

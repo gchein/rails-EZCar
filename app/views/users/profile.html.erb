@@ -14,4 +14,18 @@
       </div>
     </div>
   <% end %>
+  <h3 class="my-3"> My Cars</h3>
+  <% @user.cars_as_owner.each do |car| %>
+  <div class="card mb-3 p-2">
+    <% brand_model = "#{car.brand} #{car.model}" %>
+    <p><%= link_to brand_model, car %></p>
+    <p>Daily Price: $<%= car.daily_price/100 %></p>
+    <p>Address: <%= car.address %></p>
+    <p>Active Bookings : <%= car.bookings.count %></p>
+    <div class="d-flex">
+        <%= link_to 'Edit this car', edit_car_path(car), class: 'btn btn-primary' %>
+        <%= link_to 'Delete this car', car_path(car), class: 'btn btn-danger ms-3 rounded-3 text-white', data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
+      </div>
+  </div>
+  <% end %>
 </div>

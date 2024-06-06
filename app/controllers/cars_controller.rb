@@ -18,7 +18,7 @@ class CarsController < ApplicationController
   end
 
   def index
-    @cars = Car.all
+    @cars = Car.all.order("id")
     @markers = @cars.geocoded.map do |car|
       {
         lat: car.latitude,
@@ -38,13 +38,13 @@ class CarsController < ApplicationController
 
   def update
     @car = Car.update(car_params)
-    redirect_to car_path(@car)
+    redirect_to profile_path
   end
 
   def destroy
     @car.destroy
 
-    redirect_to cars_path, status: :see_other
+    redirect_to profile_path, status: :see_other
   end
 
   private
