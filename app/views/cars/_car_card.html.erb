@@ -1,4 +1,4 @@
-<% cars.each do |car| %>
+<% @cars.each do |car| %>
   <div class="col-md-4 mb-4">
     <div class="card car-card">
       <%= cl_image_tag (car.photos[0].key), height: 200, width: 300, crop: :fill, class: "card-img-top" %>
@@ -7,7 +7,7 @@
         <p class="card-text flex-grow-1"><%= truncate(car.description, length: 100) %></p>
         <div class="d-flex justify-content-between align-items-center mb-3">
           <span class="btn btn-success card-price"><%= number_to_currency car.daily_price/100, precision: 0 %> per day</span>
-          <%= link_to "Book Now!", new_car_booking_path(car), class: "btn btn-primary" %>
+          <%= link_to "Book Now!", car_path(car), class: "btn btn-primary" %>
         </div>
         <p class="card-owner mt-auto"><strong>Owner:</strong> <%= car.owner.first_name %> <%= car.owner.last_name %></p>
       </div>
