@@ -37,17 +37,35 @@
       <p><strong>Owner:</strong> <%= @car.owner.first_name %> <%= @car.owner.last_name %></p>
       <p><strong>Description:</strong> <%= @car.description %></p>
       <p><strong>Address:</strong> <%= @car.address %></p>
-      <p class="btn btn-success"><strong>Daily price: $ <%= @car.daily_price/100 %></strong></p>
     </div>
     <div class="col-6">
       <div class='card p-4'>
         <h3 class='mb-3'>Make a Booking</h3>
+
         <%= simple_form_for [@car, @booking] do |f| %>
           <%= f.input :start_date, as: :string, input_html: { data: { controller: "datepicker" } }%>
           <%= f.input :end_date, as: :string, input_html: { data: { controller: "datepicker" } } %>
-          <%= f.submit "Make Booking", class: "btn btn-primary" %>
+          <%= f.submit "Make Booking", class: "btn btn-primary w-100 mt-3" %>
         <% end %>
+        <span class="btn btn-success text-white mt-3"><strong><%= number_to_currency @car.daily_price/100, precision: 0 %> per day</strong></span>
       </div>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-12">
+      <div class="d-flex justify-contents-between">
+        <h3>Reviews</h3>
+        <%= link_to 'Leave a Review', new_car_review_path(@car), class: 'btn btn-secondary ms-3 rounded-3 text-white' %>
+      </div>
+      <% @car.reviews.each do |review| %>
+        <div class="card mb-3">
+          <div class="card-body">
+            <p><strong><%= review.user.first_name %> <%= review.user.last_name %></strong></p>
+            <p><%= raw star_rating(review.rating) %></p>
+            <p><%= review.content %></p>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

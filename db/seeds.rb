@@ -32,16 +32,6 @@ puts "Done!"
 end
 puts "Done!"
 
-
-master_first_name = "Leo"
-master_last_name = "Wagon"
-master_email = "ezcar1685@gmail.com"
-master_password = "lewagon1685"
-puts "Creating master user #{master_first_name} #{master_last_name}"
-
-User.create!(first_name: master_first_name, last_name: master_last_name, email: master_email, password: master_password)
-puts "Done!"
-
 car_api_url_base = 'https://carapi.app/api/bodies?verbose=yes&json=%5B%7B%22field%22%3A%22year%22%2C%22op%22%3A%22%3E%3D%22%2C%22val%22%3A2015%7D%2C%7B%22field%22%3A%22year%22%2C%22op%22%3A%22%3C%3D%22%2C%22val%22%3A2020%7D%5D' # &page=1
 # iterar pelas páginas, depois pelos resultados das páginas (de 1 a 100), e por fim pegar os dados desse resultado randômico da iteração.
 # https://carapi.app/api
@@ -140,4 +130,22 @@ owners_index.each do |i|
   new_car.photos.attach(io: file, filename: "nes.png", content_type: "image/png")
   new_car.save
   end
+puts "Done!"
+
+master_first_name = "Leo"
+master_last_name = "Wagon"
+master_email = "ezcar1685@gmail.com"
+master_password = "lewagon1685"
+puts "Creating master user #{master_first_name} #{master_last_name}"
+
+User.create!(first_name: master_first_name, last_name: master_last_name, email: master_email, password: master_password)
+puts "Done!"
+
+test_renter_first_name = "José"
+test_renter_last_name = "das Couves"
+test_renter_email = "zezin_couve@gmail.com"
+test_renter_password = "kalelover123"
+puts "Creating test renter user #{test_renter_first_name} #{test_renter_last_name}"
+
+User.create!(first_name: test_renter_first_name, last_name: test_renter_last_name, email: test_renter_email, password: test_renter_password)
 puts "Done!"

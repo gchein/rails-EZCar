@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   # root "posts#index"
   resources :cars do
     resources :bookings, only: %i[new create]
+    resources :reviews, only: %i[new create]
   end
   resources :bookings, only: %i[edit update destroy]
   get 'profile', to: 'users#profile'

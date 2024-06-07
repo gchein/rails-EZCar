@@ -1,96 +1,107 @@
 <div class="container mt-3">
-  <h1>My Profile</h1>
+  <h1 class="mb-5">My Profile</h1>
 
+  <%# Rentals Section %>
   <h3 class="my-3">Rentals</h3>
-  <% @user.bookings_as_renter.each do |booking| %>
+  <% active_bookings = @user.bookings_as_renter.order("id").select { |booking| booking.status != 'archived' } %>
+  <% active_bookings.each do |booking| %>
     <div class="card mb-3 p-2">
-      <% brand_model = "#{booking.car.brand} #{booking.car.model}" %>
-      <p><%= link_to brand_model, booking.car %></p>
+      <% car = booking.car %>
+      <% brand_model = "#{car.brand} #{car.model}" %>
+      <p><%= link_to brand_model, car %> - <%= car.owner.first_name %> <%= car.owner.last_name %></p>
       <p>From <%= booking.start_date.strftime("%d/%b/%Y") %> to <%= booking.end_date.strftime("%d/%b/%Y") %> (<%= booking.duration %> days)</p>
-      <p>Total Cost: $<%= booking.total_cost %></p>
+      <p>Total cost: <%= number_to_currency booking.total_cost, precision: 0 %></p>
       <div class="d-flex">
         <span class = '<%= rental_status(booking.status)%> rounded-3 mx-3 text-white'><%= booking.status.capitalize %></span>
-        <%= link_to 'Edit this booking', edit_booking_path(booking), class: 'btn btn-primary rounded-3 text-white' %>
-        <%= link_to 'Delete this booking', booking_path(booking), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger ms-3 rounded-3 text-white' %>
+        <% edit_label = booking.status == 'active' || booking.status == 'destroying' ? 'Unable to edit active booking' : 'Edit this booking' %>
+        <% edit_class = booking.status == 'active' || booking.status == 'destroying' ? 'disabled' : '' %>
+        <%= link_to edit_label, edit_booking_path(booking), class: "btn btn-primary rounded-3 text-white #{edit_class}" %>
+        <% destroy_label = booking.status == 'destroying' ? 'Delete request sent to car owner' : 'Delete this booking' %>
+        <% destroy_class = booking.status == 'destroying' ? 'disabled' : '' %>
+        <%= link_to destroy_label, booking_path(booking), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "btn btn-danger ms-3 rounded-3 text-white #{destroy_class}" %>
+        <%= link_to 'Leave a Review', new_car_review_path(car), class: 'btn btn-secondary ms-3 rounded-3 text-white' %>
       </div>
     </div>
   <% end %>
+
+  <%# My Cars Section %>
   <h3 class="my-3"> My Cars</h3>
-  <% @user.cars_as_owner.each do |car| %>
-  <div class="card mb-3 p-2">
-    <% brand_model = "#{car.brand} #{car.model}" %>
-    <p><%= link_to brand_model, car %></p>
-    <p>Daily Price: $<%= car.daily_price/100 %></p>
-    <p>Address: <%= car.address %></p>
-    <p>Active Bookings : <%= car.bookings.count %></p>
-    <div class="d-flex">
-      <%= link_to 'Edit this car', edit_car_path(car), class: 'btn btn-primary' %>
-      <%= link_to 'Delete this car', car_path(car), class: 'btn btn-danger ms-3 rounded-3 text-white', data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
-    </div>
-  </div>
-  <% end %>
-  <h3 class="my-3"> My Cars' Bookings</h3>
-    <% @user.cars_as_owner.each do |car| %>
-  <div class="card mb-3 p-2">
-    <% brand_model = "#{car.brand} #{car.model}" %>
-    <div class="card">
-      <h4>Bookings for <%= link_to brand_model, car %></h4>
-    </div>
-
-    <div class="card">
-
-      <h6>Active Bookings</h6>
-
-      <div class="card">
-        <% active_bookings = car.bookings.select { |booking| booking.status == 'active' } %>
-        <% active_bookings.each do |booking| %>
-          <div class="card">
-            <p><%= booking.renter.first_name %> <%= booking.renter.last_name %></p>
-            <p>$ <%= booking.total_cost %></p>
-            <p>From <%= booking.start_date.strftime("%d/%b/%Y") %> to <%= booking.end_date.strftime("%d/%b/%Y") %> (<%= booking.duration %> days)</p>
-            <p><%= booking.status %></p>
-            <div class="d-flex">
-              <%= simple_form_for booking do |f| %>
-                <%= f.input :status, as: :hidden, input_html: { value: 'active'} %>
-                <%= f.submit 'Accept', class: 'btn btn-info' %>
-              <% end %>
-
-              <%= simple_form_for booking do |f| %>
-                <%= f.input :status, as: :hidden, input_html: { value: 'archived'} %>
-                <%= f.submit 'Reject', class: 'btn btn-light' %>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
+  <% @user.cars_as_owner.order("id").each do |car| %>
+    <div class="card mb-3 p-2">
+      <% brand_model = "#{car.brand} #{car.model}" %>
+      <h4><%= link_to brand_model, car %></h4>
+      <p>Daily Price: <%= number_to_currency car.daily_price.to_f/100, precision: 0 %></p>
+      <p>Address: <%= car.address %></p>
+      <% car_active_bookings = car.bookings.select { |booking| booking.status == 'active' } %>
+      <p>Active Bookings : <%= car_active_bookings.count %></p>
+      <div class="d-flex">
+        <%= link_to 'Edit this car', edit_car_path(car), class: 'btn btn-primary' %>
+        <%= link_to 'Delete this car', car_path(car), class: 'btn btn-danger ms-3 rounded-3 text-white', data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
       </div>
 
+      <%# Individual Car 'Bookings for...' div %>
+      <div class="card mt-3 p-2">
+        <% brand_model = "#{car.brand} #{car.model}" %>
+        <h5><strong>Bookings for <%= brand_model %></strong></h5>
 
-      <h6>Pending Bookings</h6>
+        <div class="card mt-3">
+          <h6 class="m-3"><strong>Active Bookings</strong></h6>
 
-      <div class="card">
-        <% pending_bookings = car.bookings.select { |booking| booking.status == 'pending' } %>
-        <% pending_bookings.each do |booking| %>
-          <div class="card">
-            <p><%= booking.renter.first_name %> <%= booking.renter.last_name %></p>
-            <p>$ <%= booking.total_cost %></p>
-            <p>From <%= booking.start_date.strftime("%d/%b/%Y") %> to <%= booking.end_date.strftime("%d/%b/%Y") %> (<%= booking.duration %> days)</p>
-            <p><%= booking.status %></p>
-            <div class="d-flex">
-              <%= simple_form_for booking do |f| %>
-                <%= f.input :status, as: :hidden, input_html: { value: 'active'} %>
-                <%= f.submit 'Accept', class: 'btn btn-info' %>
-              <% end %>
+          <div class="card mb-3">
+            <% active_bookings = car.bookings.order("id").select { |booking| booking.status == 'active' || booking.status == 'destroying' } %>
+            <% active_bookings.each do |booking| %>
+              <div class="card m-3">
+                <p>Renter: <%= booking.renter.first_name %> <%= booking.renter.last_name %></p>
+                <p>Total income: <%= number_to_currency booking.total_cost, precision: 0 %></p>
+                <p>From <%= booking.start_date.strftime("%d/%b/%Y") %> to <%= booking.end_date.strftime("%d/%b/%Y") %> (<%= booking.duration %> days)</p>
+                <%# if booking.status == 'destroying' %>
+                <% destroy_class = booking.status == 'destroying' ? '' : 'd-none' %>
+                <div class=" mt-4 m-2 fw-bold <%= destroy_class %>">
+                  <p class="m-0">Renter requested the deletion of this booking.</p>
+                  <p class="m-0">What would you like to do?</p>
+                  <div class="d-flex align-items-end">
+                    <div>
+                      <%= link_to 'Delete Booking', booking_path(booking), class: 'btn btn-danger fw-bold me-3', data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
+                    </div>
 
-              <%= simple_form_for booking do |f| %>
-                <%= f.input :status, as: :hidden, input_html: { value: 'archived'} %>
-                <%= f.submit 'Reject', class: 'btn btn-light' %>
-              <% end %>
-            </div>
+                    <%= simple_form_for booking do |f| %>
+                      <%= f.input :status, as: :hidden, input_html: { value: 'active'} %>
+                      <%= f.submit 'Keep booking', class: 'btn btn-success fw-bold' %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
           </div>
-        <% end %>
-      </div>
-    </div>
 
-  </div>
+          <h6 class="m-3"><strong>Pending Bookings</strong></h6>
+
+          <div class="card">
+            <% pending_bookings = car.bookings.order("id").select { |booking| booking.status == 'pending' } %>
+            <% pending_bookings.each do |booking| %>
+              <div class="card m-3">
+                <p>Renter <%= booking.renter.first_name %> <%= booking.renter.last_name %></p>
+                <p>Total income: <%= number_to_currency booking.total_cost, precision: 0 %></p>
+                <p>From <%= booking.start_date.strftime("%d/%b/%Y") %> to <%= booking.end_date.strftime("%d/%b/%Y") %> (<%= booking.duration %> days)</p>
+                <div class="d-flex">
+                  <%= simple_form_for booking do |f| %>
+                    <%= f.input :status, as: :hidden, input_html: { value: 'active'} %>
+                    <%= f.submit 'Accept', class: 'btn btn-info' %>
+                  <% end %>
+
+                  <%= simple_form_for booking do |f| %>
+                    <%= f.input :status, as: :hidden, input_html: { value: 'archived'} %>
+                    <%= f.submit 'Reject', class: 'btn btn-light' %>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
   <% end %>
+
 </div>

@@ -5,3 +5,54 @@
 @import "navbar";
 @import "map";
 @import "address_autocomplete";
+
+
+
+.card {
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  .placeholder-image {
+    width: 100%;
+    height: 200px;
+    background-color: #E0E0E0; // Light grey background for the placeholder
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #777;
+    font-size: 1.5rem;
+  }
+  .card-body {
+    h5.card-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+    p.card-text {
+      margin-bottom: 0.5rem;
+    }
+  }
+  .card-footer {
+    background-color: #F8F9FA;
+    .btn-success {
+      background-color: #28A745;
+      border-color: #28A745;
+      cursor: default;
+    }
+  }
+}
+.sticky-container {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 20px;
+}
+.sticky-map {
+  width: 100%;
+  height: 600px;
+}
+form.d-flex {
+  margin-bottom: 2rem;
+}
+.list-group-item {
+  cursor: pointer;
+}

@@ -5,6 +5,8 @@ import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder"
 
 // Connects to data-controller="map"
 export default class extends Controller {
+  static targets = ['pageMap', 'carList', 'mainSearch']
+
   static values = {
     apiKey: String,
     markers: Array
@@ -14,14 +16,32 @@ export default class extends Controller {
     mapboxgl.accessToken = this.apiKeyValue
 
     this.map = new mapboxgl.Map({
-      container: this.element,
-      style: "mapbox://styles/mapbox/streets-v10",
+      container: this.pageMapTarget,
+      style: "mapbox://styles/mapbox/dark-v11",
     })
 
     this.addMarkersToMap()
     this.fitMapToMarkers()
-    this.map.addControl(new MapboxGeocoder({ accessToken: mapboxgl.accessToken,
-      mapboxgl: mapboxgl }))
+
+    this.geocoder = new MapboxGeocoder({ accessToken: mapboxgl.accessToken,
+         mapboxgl: mapboxgl,
+         types: "country,region,place,postcode,locality,neighborhood,address"
+    })
+
+    this.map.addControl(this.geocoder)
+    this.geocoder.addTo(this.mainSearchTarget)
+
+    this.geocoder.on("result", (event) => {
+      const lat = event.result.center[1]
+      const lng = event.result.center[0]
+
+      fetch(`/cars?lat=${lat}&lng=${lng}`, {
+        headers: { "Accept": "application/json" }
+      }).then(response => response.json())
+      .then((data) => {
+        this.carListTarget.innerHTML = data.car_list_html
+      })
+    })
   }
 
   addMarkersToMap() {
