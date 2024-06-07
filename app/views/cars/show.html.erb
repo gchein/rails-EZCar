@@ -25,7 +25,10 @@
   </div>
   <div class="row mt-5">
     <div class="col-12">
-      <h3>Reviews</h3>
+      <div class="d-flex justify-contents-between">
+        <h3>Reviews</h3>
+        <%= link_to 'Leave a Review', new_car_review_path(@car), class: 'btn btn-secondary ms-3 rounded-3 text-white' %>
+      </div>
       <% @car.reviews.each do |review| %>
         <div class="card mb-3">
           <div class="card-body">

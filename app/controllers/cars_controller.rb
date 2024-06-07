@@ -34,7 +34,7 @@ class CarsController < ApplicationController
 
       format.json {
         @map_json = map_params
-        @near_cars = Car.near([@map_json['lat'], @map_json['lng']], 2)
+        @near_cars = Car.near([@map_json['lat'], @map_json['lng']], 2).where(availability: true).order("id")
       }
     end
   end
