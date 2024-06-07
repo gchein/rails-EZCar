@@ -13,22 +13,6 @@ require 'json'
 require 'nokogiri'
 require 'cgi'
 
-def fetch_image_url(car_year, car_brand, car_model)
-  search_query = "#{car_year} #{car_brand} #{car_model} car"
-  google_search_url = "https://www.google.com/search?hl=en&tbm=isch&q=#{CGI.escape(search_query)}"
-  begin
-    html = URI.open(google_search_url).read
-    doc = Nokogiri::HTML.parse(html)
-    first_image = doc.css("img")[20] # Adjust the index if necessary
-
-    first_image_url = first_image['src'] || first_image['data-src'] # Adjust the index if necessary
-  rescue => e
-    puts "Error fetching image URL: #{e.message}"
-    first_image_url = nil
-  end
-  first_image_url
-end
-
 puts "Cleaning car database..."
 Car.destroy_all
 puts "Done!"
@@ -67,6 +51,22 @@ owners_index = (0..User.all.count - 1).to_a.sample(n_cars)
 address_one = 'Rua Visconde De Pirajá '
 address_two = ', Ipanema, Rio de Janeiro - Rio de Janeiro, Brasil'
 address_num = 0
+
+def fetch_image_url(car_year, car_brand, car_model)
+  search_query = "#{car_year} #{car_brand} #{car_model} car"
+  google_search_url = "https://www.google.com/search?hl=en&tbm=isch&q=#{CGI.escape(search_query)}"
+  begin
+    html = URI.open(google_search_url).read
+    doc = Nokogiri::HTML.parse(html)
+    first_image = doc.css('img')[20] # Adjust the index if necessary
+    first_image_url = first_image['src'] || first_image['data-src'] # Adjust the index if necessary
+  rescue => e
+    puts "Error fetching image URL: #{e.message}"
+    first_image_url = nil
+  end
+  first_image_url
+end
+
 
 puts "Creating cars..."
 owners_index.each do |i|
