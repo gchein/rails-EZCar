@@ -19,7 +19,7 @@ class CarsController < ApplicationController
   end
 
   def index
-    @cars = Car.all.order("id")
+    @cars = Car.where(availability: true).order("id")
     @markers = @cars.geocoded.map do |car|
       {
         lat: car.latitude,

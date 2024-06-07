@@ -2,9 +2,7 @@
   <div class="col-3">
     <ul>
     <% @cars.each do |car| %>
-      <% if car.availability %>
-        <li><%=link_to car.model, car_path(car) %></li>
-      <% end %>
+      <li><%=link_to car.model, car_path(car) %></li>
     <% end %>
 
     <%= link_to 'List your car for rent!', new_car_path, class: 'btn btn-primary mt-3' %>
