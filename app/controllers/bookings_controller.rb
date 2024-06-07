@@ -1,6 +1,6 @@
 class BookingsController < ApplicationController
-  before_action :set_booking, only: %i[destroy edit update]
-  before_action :set_car, only: %i[new create]
+  before_action :set_car, only: [:new, :create]
+  before_action :set_booking, only: [:edit, :update, :destroy]
 
   def new
     @booking = Booking.new
@@ -11,54 +11,27 @@ class BookingsController < ApplicationController
     @booking.car = @car
     @booking.renter = current_user
 
-    @start_date = @booking.start_date
-    @end_date = @booking.end_date
-
-    unless @start_date.nil? || @end_date.nil?
-      @number_of_days = (@end_date - @start_date).to_i
-      @total_cost = @number_of_days * @car.daily_price / 100
-      @booking.total_cost = @total_cost
-    end
-
     if @booking.save
-      redirect_to profile_path, notice: 'Booking successfully created.'
+      redirect_to profile_path, notice: 'Booking was successfully created.'
     else
-      render 'cars/show', status: :unprocessable_entity
+      render :new, status: :unprocessable_entity
     end
-  end
-
-  def destroy
-    @booking.destroy
-    redirect_to profile_path, status: :see_other
   end
 
   def edit
   end
 
   def update
-    @car = @booking.car
-
-    if params[:booking].key?(:start_date)
-      @start_date = Date.parse(params[:booking][:start_date]).to_date
-    else
-      @start_date = @booking.start_date
-    end
-
-    if params[:booking].key?(:end_date)
-      @end_date = Date.parse(params[:booking][:end_date]).to_date
-    else
-      @end_date = @booking.end_date
-    end
-
-    @number_of_days = (@end_date - @start_date).to_i
-    @total_cost = @number_of_days * @car.daily_price / 100
-    @booking.total_cost = @total_cost
-
     if @booking.update(booking_params)
-      redirect_to profile_path, notice: 'Booking successfully updated.'
+      redirect_to profile_path, notice: 'Booking was successfully updated.'
     else
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    @booking.destroy
+    redirect_to profile_path, notice: 'Booking was successfully deleted.'
   end
 
   private

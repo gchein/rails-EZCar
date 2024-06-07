@@ -1,6 +1,12 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
-<h1>My home</h1>
-<div>
-<p>Here goes my search bar</p>
-<%= link_to "Search for a car!", cars_path %>
+<div class="jumbotron">
+  <h1 class="display-4">Welcome to EZCar!</h1>
+  <p class="lead">Find and book cars easily.</p>
+  <hr class="my-4">
+  <p>Explore our listings and book a car today.</p>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Search for a car" aria-label="Search for a car" aria-describedby="button-addon2">
+    <div class="input-group-append">
+      <%= link_to "Search", cars_path, class: "btn btn-primary", id: "button-addon2" %>
+    </div>
+  </div>
+</div>

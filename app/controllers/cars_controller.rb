@@ -8,8 +8,7 @@ class CarsController < ApplicationController
   def create
     @car = Car.new(car_params)
     @car.daily_price = @car.daily_price * 100
-    @user = current_user
-    @car.owner = @user
+    @car.owner = current_user
 
     if @car.save
       redirect_to cars_path
@@ -38,15 +37,26 @@ class CarsController < ApplicationController
   end
 
   def update
-    @car = Car.update(car_params)
+    @car.update(car_params)
     @car.daily_price = @car.daily_price * 100
     redirect_to profile_path
   end
 
   def destroy
     @car.destroy
-
     redirect_to profile_path, status: :see_other
+  end
+
+  def search
+    if params[:query].present?
+      @cars = Car.where('brand ILIKE :query OR model ILIKE :query', query: "%#{params[:query]}%")
+    else
+      @cars = Car.none
+    end
+
+    respond_to do |format|
+      format.json { render json: @cars }
+    end
   end
 
   private
