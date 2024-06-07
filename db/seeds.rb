@@ -58,10 +58,6 @@ def fetch_image_url(car_year, car_brand, car_model)
   begin
     html = URI.open(google_search_url).read
     doc = Nokogiri::HTML.parse(html)
-    doc.search(".YQ4gaf").each do |element|
-      puts element.text.strip
-      puts element.attribute("href").value
-    end
     first_image = doc.css('data-csiid')[20] # Adjust the index if necessary
     first_image_url = first_image['src'] || first_image['data-src'] # Adjust the index if necessary
   rescue => e
