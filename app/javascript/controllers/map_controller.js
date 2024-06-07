@@ -39,7 +39,7 @@ export default class extends Controller {
         headers: { "Accept": "application/json" }
       }).then(response => response.json())
       .then((data) => {
-        console.log(data)
+        this.carListTarget.innerHTML = data.car_list_html
       })
     })
   }
