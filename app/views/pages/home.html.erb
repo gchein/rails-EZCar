@@ -1,6 +1,7 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
-<h1>My home</h1>
-<div>
-<p>Here goes my search bar</p>
-<%= link_to "Search for a car!", cars_path %>
+<div class="banner">
+  <img src="<%= asset_path 'ezcar_logotype.png' %>" alt="EzCar Logo" class="logo">
+  <div class="search-container">
+    <input type="text" class="search-bar" placeholder="Search for a car...">
+    <%= link_to "Search for a car!", cars_path, class: "search-link btn btn-primary" %>
+  </div>
+</div>

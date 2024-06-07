@@ -58,7 +58,7 @@ def fetch_image_url(car_year, car_brand, car_model)
   begin
     html = URI.open(google_search_url).read
     doc = Nokogiri::HTML.parse(html)
-    first_image = doc.css('data-csiid')[20] # Adjust the index if necessary
+    first_image = doc.css('img')[20] # Adjust the index if necessary
     first_image_url = first_image['src'] || first_image['data-src'] # Adjust the index if necessary
   rescue => e
     puts "Error fetching image URL: #{e.message}"
