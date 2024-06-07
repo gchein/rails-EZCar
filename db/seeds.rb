@@ -21,7 +21,7 @@ puts "Cleaning user database..."
 User.destroy_all
 puts "Done!"
 
-2.times do |_i|
+40.times do |_i|
   first_name = Faker::Name.first_name
   last_name = Faker::Name.last_name
   email = Faker::Internet.email(name: "#{first_name} #{last_name}", separators: ['_'])
@@ -40,13 +40,13 @@ car_api_result = URI.open(car_api_url_base).read
 car_api_json = JSON.parse(car_api_result)
 
 n_pages = car_api_json['collection']['pages']
-n_cars = 1
+n_cars = 20
 
 puts "Total pages: #{n_pages}"
-page_jump = n_pages / (n_cars * 2)
+page_jump = n_pages / n_cars
 current_page = 1
 
-owners_index = (0..User.all.count - 1).to_a.sample(1)
+owners_index = (0..User.all.count - 1).to_a.sample(n_cars)
 
 address_one = 'Rua Visconde De Pirajá '
 address_two = ', Ipanema, Rio de Janeiro - Rio de Janeiro, Brasil'
@@ -128,7 +128,9 @@ owners_index.each do |i|
   # end
 
   file = URI.open(fetch_image_url(new_car_hash[:year], new_car_hash[:brand], new_car_hash[:model]))
+
   new_car.photos.attach(io: file, filename: "nes.png", content_type: "image/png")
+
   new_car.save
   end
 puts "Done!"
