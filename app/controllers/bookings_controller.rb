@@ -28,8 +28,13 @@ class BookingsController < ApplicationController
   end
 
   def destroy
-    @booking.destroy
-    redirect_to profile_path, status: :see_other
+    if @booking.status == 'destroying' || @booking.status == 'pending'
+      @booking.destroy
+      redirect_to profile_path, status: :see_other
+    else
+      @booking.status = 'destroying'
+      @booking.save
+    end
   end
 
   def edit
@@ -54,8 +59,14 @@ class BookingsController < ApplicationController
     @total_cost = @number_of_days * @car.daily_price / 100
     @booking.total_cost = @total_cost
 
-    if @booking.update(booking_params)
-      redirect_to profile_path, notice: 'Booking successfully updated.'
+    if @booking.valid?
+      if @booking.status == 'pending' || @booking.status == 'destroying'
+        @booking.update(booking_params)
+        redirect_to profile_path, notice: 'Booking successfully updated.'
+      else
+        redirect_back fallback_location: edit_booking_path(@booking), notice: "This booking has already been accepted by the owner, and can't be updated."
+      end
+
     else
       render :edit, status: :unprocessable_entity
     end

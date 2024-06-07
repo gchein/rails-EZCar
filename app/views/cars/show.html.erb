@@ -9,7 +9,7 @@
       <p><strong>Owner:</strong> <%= @car.owner.first_name %> <%= @car.owner.last_name %></p>
       <p><strong>Description:</strong> <%= @car.description %></p>
       <p><strong>Address:</strong> <%= @car.address %></p>
-      <p class="btn btn-success"><strong>Daily price: $ <%= @car.daily_price/100 %></strong></p>
+      <p class="btn btn-success"><strong>Daily price: <%= number_to_currency @car.daily_price/100, precision: 0 %></strong></p>
     </div>
     <div class="col-6">
       <div class='card p-3'>
