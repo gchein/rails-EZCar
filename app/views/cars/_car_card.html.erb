@@ -2,7 +2,7 @@
   <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
     <div class="card h-100">
       <div class="card-img-top placeholder-image" alt="<%= car.model %>">
-        Image Placeholder
+        <%= cl_image_tag car.photos[0].key, height: 310, width: 600, crop: :fill, class: "ms-3"  %>
       </div>
       <div class="card-body">
         <h5 class="card-title"><%= "#{car.year} #{car.brand} #{car.model}" %></h5>

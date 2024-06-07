@@ -42,7 +42,6 @@ class BookingsController < ApplicationController
 
   def update
     @car = @booking.car
-
     if params[:booking].key?(:start_date)
       @start_date = Date.parse(params[:booking][:start_date]).to_date
     else
