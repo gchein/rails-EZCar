@@ -1,3 +1,11 @@
-<h2><%= car.brand %> <%= car.model %></h2>
-<p>Ano:<%= car.year %>/Mileage:<%= car.mileage %></p>
-<p><%= car.description %></p>
+<div class="card h-100">
+  <div class="card-body">
+    <h5 class="card-title"><%= "#{car.year} #{car.brand} #{car.model}" %></h5>
+    <p class="card-text"><strong>Mileage:</strong> <%= car.mileage %> km</p>
+    <p class="card-text"><%= car.description %></p>
+    <%= link_to 'Book Now', car_path(car), class: 'btn btn-primary mt-2' %>
+  </div>
+  <div class="card-footer text-muted">
+    <small>Owner: <%= car.owner.first_name %> <%= car.owner.last_name %></small>
+  </div>
+</div>

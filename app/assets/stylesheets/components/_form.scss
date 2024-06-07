@@ -1,0 +1,27 @@
+.form-horizontal {
+  .form-group {
+    margin-bottom: 1rem;
+
+    .form-label {
+      font-weight: bold;
+    }
+
+    .form-control {
+      border-radius: 0.25rem;
+    }
+
+    .form-check-input {
+      margin-left: 0;
+    }
+
+    .form-check-label {
+      margin-left: 1.25rem;
+    }
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    border-radius: 0.25rem;
+  }
+}

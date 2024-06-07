@@ -1,15 +1,51 @@
-<h1>Edit my car</h1>
+<div class="container mt-5">
+  <h1 class="mb-4">Edit My Car</h1>
 
-<%= simple_form_for(@car) do |f| %>
-  <%= f.input :brand %>
-  <%= f.input :model %>
-  <%= f.input :year %>
-  <%= f.input :category %>
-  <%= f.input :mileage %>
-  <%= f.input :color %>
-  <%= f.input :license_plate %>
-  <%= f.input :description %>
-  <%= f.input :daily_price, hint: 'Price in cents' %>
-  <%= f.input :availability %>
-  <%= f.submit %>
-<% end %>
+  <%= simple_form_for(@car, html: { class: 'form-horizontal' }) do |f| %>
+    <div class="form-group row mb-3">
+      <div class="col-md-6">
+        <%= f.input :brand, input_html: { class: 'form-control' }, wrapper: false, label_html: { class: 'form-label' } %>
+      </div>
+      <div class="col-md-6">
+        <%= f.input :model, input_html: { class: 'form-control' }, wrapper: false, label_html: { class: 'form-label' } %>
+      </div>
+    </div>
+    <div class="form-group row mb-3">
+      <div class="col-md-4">
+        <%= f.input :year, input_html: { class: 'form-control' }, wrapper: false, label_html: { class: 'form-label' } %>
+      </div>
+      <div class="col-md-4">
+        <%= f.input :category, input_html: { class: 'form-control' }, wrapper: false, label_html: { class: 'form-label' } %>
+      </div>
+      <div class="col-md-4">
+        <%= f.input :mileage, input_html: { class: 'form-control' }, wrapper: false, label_html: { class: 'form-label' } %>
+      </div>
+    </div>
+    <div class="form-group row mb-3">
+      <div class="col-md-6">
+        <%= f.input :color, input_html: { class: 'form-control' }, wrapper: false, label_html: { class: 'form-label' } %>
+      </div>
+      <div class="col-md-6">
+        <%= f.input :license_plate, input_html: { class: 'form-control' }, wrapper: false, label_html: { class: 'form-label' } %>
+      </div>
+    </div>
+    <div class="form-group row mb-3">
+      <div class="col-md-12">
+        <%= f.input :description, as: :text, input_html: { class: 'form-control', rows: 5 }, wrapper: false, label_html: { class: 'form-label' } %>
+      </div>
+    </div>
+    <div class="form-group row mb-3">
+      <div class="col-md-6">
+        <%= f.input :daily_price, hint: 'Price in cents', input_html: { class: 'form-control' }, wrapper: false, label_html: { class: 'form-label' } %>
+      </div>
+      <div class="col-md-6">
+        <%= f.input :availability, as: :boolean, input_html: { class: 'form-check-input' }, wrapper: false, label_html: { class: 'form-check-label' } %>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-12 text-center">
+        <%= f.submit 'Update Car', class: 'btn btn-primary' %>
+      </div>
+    </div>
+  <% end %>
+</div>
