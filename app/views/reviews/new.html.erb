@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h1>Leave a Review</h1>
+      <%= simple_form_for([@car, @review], html: { data: { controller: 'form-submit' } }) do |f| %>
+        <div class="form-group">
+          <%= f.input :content, as: :text, input_html: { rows: 5 }, label_html: { class: 'form-label' }, wrapper: false, class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.input :rating, collection: (1..5).to_a, label: "Rate your experience", input_html: { data: { controller: "star-rating" } }, wrapper: false, class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.submit "Send your review", class: "btn btn-primary mt-3" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

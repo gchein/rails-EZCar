@@ -19,6 +19,7 @@
         <% destroy_label = booking.status == 'destroying' ? 'Delete request sent to car owner' : 'Delete this booking' %>
         <% destroy_class = booking.status == 'destroying' ? 'disabled' : '' %>
         <%= link_to destroy_label, booking_path(booking), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "btn btn-danger ms-3 rounded-3 text-white #{destroy_class}" %>
+        <%= link_to 'Leave a Review', new_car_review_path(car), class: 'btn btn-secondary ms-3 rounded-3 text-white' %>
       </div>
     </div>
   <% end %>
