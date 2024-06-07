@@ -21,7 +21,7 @@ puts "Cleaning user database..."
 User.destroy_all
 puts "Done!"
 
-40.times do |_i|
+2.times do |_i|
   first_name = Faker::Name.first_name
   last_name = Faker::Name.last_name
   email = Faker::Internet.email(name: "#{first_name} #{last_name}", separators: ['_'])
@@ -40,13 +40,13 @@ car_api_result = URI.open(car_api_url_base).read
 car_api_json = JSON.parse(car_api_result)
 
 n_pages = car_api_json['collection']['pages']
-n_cars = 20
+n_cars = 1
 
 puts "Total pages: #{n_pages}"
-page_jump = n_pages / n_cars
+page_jump = n_pages / (n_cars * 2)
 current_page = 1
 
-owners_index = (0..User.all.count - 1).to_a.sample(20)
+owners_index = (0..User.all.count - 1).to_a.sample(1)
 
 address_one = 'Rua Visconde De Pirajá '
 address_two = ', Ipanema, Rio de Janeiro - Rio de Janeiro, Brasil'
@@ -57,8 +57,13 @@ def fetch_image_url(car_year, car_brand, car_model)
   google_search_url = "https://www.google.com/search?hl=en&tbm=isch&q=#{CGI.escape(search_query)}"
   begin
     html = URI.open(google_search_url).read
-    doc = Nokogiri::HTML(html)
-    first_image_url = doc.css('img')[1]['src'] # Adjust the index if necessary
+    doc = Nokogiri::HTML.parse(html)
+    doc.search(".YQ4gaf").each do |element|
+      puts element.text.strip
+      puts element.attribute("href").value
+    end
+    first_image = doc.css('data-csiid')[20] # Adjust the index if necessary
+    first_image_url = first_image['src'] || first_image['data-src'] # Adjust the index if necessary
   rescue => e
     puts "Error fetching image URL: #{e.message}"
     first_image_url = nil
