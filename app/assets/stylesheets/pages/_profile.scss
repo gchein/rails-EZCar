@@ -1,0 +1,97 @@
+.profile-container {
+  padding: 20px;
+
+  h1, h3, h4, h5, h6 {
+    color: #ffffff;
+  }
+
+  .card {
+    background-color: #333;
+    border: none;
+    border-radius: 10px;
+    color: #ffffff;
+    padding: 20px;
+    margin-bottom: 20px;
+
+    p {
+      margin: 0;
+      padding: 5px 0;
+    }
+
+    .btn {
+      margin-right: 10px;
+    }
+
+    .btn-secondary {
+      background-color: #6c757d;
+      border-color: #6c757d;
+      color: #ffffff;
+
+      &:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+      }
+    }
+
+    .btn-primary {
+      background-color: #4CAF50;
+      border-color: #4CAF50;
+
+      &:hover {
+        background-color: #45a049;
+      }
+    }
+
+    .btn-danger {
+      background-color: #f44336;
+      border-color: #f44336;
+
+      &:hover {
+        background-color: #e53935;
+      }
+    }
+
+    .btn-secondary {
+      background-color: #555555;
+      border-color: #555555;
+
+      &:hover {
+        background-color: #444444;
+      }
+    }
+
+    .btn-info {
+      background-color: #17a2b8;
+      border-color: #17a2b8;
+
+      &:hover {
+        background-color: #138496;
+      }
+    }
+
+    .btn-light {
+      background-color: #f8f9fa;
+      border-color: #f8f9fa;
+      color: #333;
+
+      &:hover {
+        background-color: #e2e6ea;
+      }
+    }
+
+    .fw-bold {
+      font-weight: bold;
+    }
+
+    .d-none {
+      display: none;
+    }
+  }
+
+  .rentals-section,
+  .my-cars-section {
+    .card {
+      background-color: #444;
+    }
+  }
+}
