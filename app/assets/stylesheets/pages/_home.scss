@@ -1,1 +1,52 @@
-// Specific CSS for your home-page
+body {
+  background-color: #1E1E1E;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+
+  .logo {
+    max-width: 150px; // Adjust size as needed
+    margin-bottom: 20px;
+  }
+
+  .search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .search-bar {
+      width: 300px;
+      padding: 10px;
+      font-size: 18px;
+      border: 1px solid #ccc;
+      border-radius: 25px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .search-link {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: #ffffff;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #45a049;
+      }
+    }
+  }
+}
