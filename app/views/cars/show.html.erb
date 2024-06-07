@@ -2,6 +2,34 @@
 <div class="container mt-3">
   <div class="row">
     <div class="col-6">
+      <div id="carouselExampleIndicators" class="carousel slide carousel-fade">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner mb-3">
+          <% @car.photos.each do |photo| %>
+            <% if @car.photos.index(photo) == 0 %>
+              <div class="carousel-item active">
+                <%= cl_image_tag (photo.key), height: 310, width: 600, crop: :fill, class: "ms-3" %>
+              </div>
+            <% else %>
+              <div class="carousel-item">
+                <%= cl_image_tag (photo.key), height: 310, width: 600, crop: :fill, class: "ms-3" %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
       <h1><%= @car.year %> <%= @car.brand %> <%= @car.model%></h1>
       <p><strong>Type:</strong> <%= @car.category %></p>
       <p><strong>Color:</strong> <%= @car.color %></p>
@@ -12,18 +40,14 @@
       <p class="btn btn-success"><strong>Daily price: $ <%= @car.daily_price/100 %></strong></p>
     </div>
     <div class="col-6">
-      <div class='card p-3'>
+      <div class='card p-4'>
         <h3 class='mb-3'>Make a Booking</h3>
         <%= simple_form_for [@car, @booking] do |f| %>
           <%= f.input :start_date, as: :string, input_html: { data: { controller: "datepicker" } }%>
           <%= f.input :end_date, as: :string, input_html: { data: { controller: "datepicker" } } %>
           <%= f.submit "Make Booking", class: "btn btn-primary" %>
         <% end %>
+      </div>
     </div>
-
-  </div>
-
-
-
   </div>
 </div>

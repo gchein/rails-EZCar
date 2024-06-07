@@ -10,6 +10,8 @@
 require 'faker'
 require 'open-uri'
 require 'json'
+require 'nokogiri'
+require 'cgi'
 
 puts "Cleaning car database..."
 Car.destroy_all
@@ -60,6 +62,20 @@ address_one = 'Rua Visconde De Pirajá '
 address_two = ', Ipanema, Rio de Janeiro - Rio de Janeiro, Brasil'
 address_num = 0
 
+def fetch_image_url(car_year, car_brand, car_model)
+  search_query = "#{car_year} #{car_brand} #{car_model} car"
+  google_search_url = "https://www.google.com/search?hl=en&tbm=isch&q=#{CGI.escape(search_query)}"
+  begin
+    html = URI.open(google_search_url).read
+    doc = Nokogiri::HTML(html)
+    first_image_url = doc.css('img')[1]['src'] # Adjust the index if necessary
+  rescue => e
+    puts "Error fetching image URL: #{e.message}"
+    first_image_url = nil
+  end
+  first_image_url
+end
+
 
 puts "Creating cars..."
 owners_index.each do |i|
@@ -104,9 +120,24 @@ owners_index.each do |i|
 
 
   new_car = Car.new(new_car_hash)
+
   new_car.owner = owner
 
   puts "Seeding #{brand} #{model} from page #{current_page}, on address: #{address}"
   new_car.save!
-end
+
+  # cars.each do |car|
+  #   image_url = fetch_image_url(car[:year], car[:brand], car[:model])
+  #   if image_url
+  #     Car.create(year: car[:year], brand: car[:brand], model: car[:model], image_url: image_url)
+  #     puts "Created #{car[:year]} #{car[:brand]} #{car[:model]} with image URL: #{image_url}"
+  #   else
+  #     puts "Failed to fetch image for #{car[:year]} #{car[:brand]} #{car[:model]}"
+  #   end
+  # end
+
+  file = URI.open(fetch_image_url(new_car_hash[:year], new_car_hash[:brand], new_car_hash[:model]))
+  new_car.photos.attach(io: file, filename: "nes.png", content_type: "image/png")
+  new_car.save
+  end
 puts "Done!"
