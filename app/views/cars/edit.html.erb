@@ -1,15 +1,22 @@
-<h1>Edit my car</h1>
+<div class="container">
+  <h1>Edit my car</h1>
 
-<%= simple_form_for(@car) do |f| %>
-  <%= f.input :brand %>
-  <%= f.input :model %>
-  <%= f.input :year %>
-  <%= f.input :category %>
-  <%= f.input :mileage %>
-  <%= f.input :color %>
-  <%= f.input :license_plate %>
-  <%= f.input :description %>
-  <%= f.input :daily_price, hint: 'Price in cents' %>
-  <%= f.input :availability %>
-  <%= f.submit %>
-<% end %>
+  <%= simple_form_for(@car) do |f| %>
+    <%= f.input :brand, disabled: true %>
+    <%= f.input :model, disabled: true %>
+    <%= f.input :year, disabled: true %>
+    <%= f.input :category, disabled: true %>
+    <%= f.input :mileage %>
+    <%= f.input :color %>
+    <%= f.input :license_plate, disabled: true %>
+    <%= f.input :description %>
+    <%= f.input :daily_price, input_html: { value: @car.daily_price/100 }, hint: 'Price in dollars' %>
+    <%= f.input :address,
+    input_html: {data: {address_autocomplete_target: "address"}, class: "d-none"},
+    wrapper_html: {data: {controller: "address-autocomplete", address_autocomplete_api_key_value: ENV["MAPBOX_API_KEY"]}}%>
+    <%= f.input :availability, label: 'Available for listing?', hint: 'Uncheck this if you want to temporarily delist your car!', label_html: { class: "fw-bold" }%>
+    <%= f.button :submit, class: "btn btn-primary mt-3"  %>
+  <% end %>
+</div>
+
+<%# label_html: { value: 'my_class' } %>

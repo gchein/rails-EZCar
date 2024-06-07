@@ -1,4 +1,4 @@
 <%#= image_tag "logo.png", height: 30, width: 30, alt: "Logo" %>
 <div class="badge border border-dark bg-white rounded-pill fs-6">
-  <p class="text-dark m-0">R$ <%= car.daily_price/100 %> </p>
+  <p class="text-dark m-0"><%= number_to_currency car.daily_price/100, precision: 0 %> </p>
 </div>

@@ -38,9 +38,15 @@ class CarsController < ApplicationController
   end
 
   def update
-    @car = Car.update(car_params)
-    @car.daily_price = @car.daily_price * 100
-    redirect_to profile_path
+    updated_params = car_params
+    updated_params[:daily_price] = updated_params[:daily_price].to_i * 100
+
+    if @car.update(updated_params)
+      @car.daily_price = @car.daily_price * 100
+      redirect_to profile_path, notice: 'Car successfully updated.'
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   def destroy

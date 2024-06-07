@@ -3,7 +3,7 @@
 
   <%# Rentals Section %>
   <h3 class="my-3">Rentals</h3>
-  <% active_bookings = @user.bookings_as_renter.select { |booking| booking.status != 'archived' } %>
+  <% active_bookings = @user.bookings_as_renter.order("id").select { |booking| booking.status != 'archived' } %>
   <% active_bookings.each do |booking| %>
     <div class="card mb-3 p-2">
       <% car = booking.car %>
@@ -13,15 +13,19 @@
       <p>Total cost: <%= number_to_currency booking.total_cost, precision: 0 %></p>
       <div class="d-flex">
         <span class = '<%= rental_status(booking.status)%> rounded-3 mx-3 text-white'><%= booking.status.capitalize %></span>
-        <%= link_to 'Edit this booking', edit_booking_path(booking), class: 'btn btn-primary rounded-3 text-white' %>
-        <%= link_to 'Delete this booking', booking_path(booking), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger ms-3 rounded-3 text-white' %>
+        <% edit_label = booking.status == 'active' || booking.status == 'destroying' ? 'Unable to edit active booking' : 'Edit this booking' %>
+        <% edit_class = booking.status == 'active' || booking.status == 'destroying' ? 'disabled' : '' %>
+        <%= link_to edit_label, edit_booking_path(booking), class: "btn btn-primary rounded-3 text-white #{edit_class}" %>
+        <% destroy_label = booking.status == 'destroying' ? 'Delete request sent to car owner' : 'Delete this booking' %>
+        <% destroy_class = booking.status == 'destroying' ? 'disabled' : '' %>
+        <%= link_to destroy_label, booking_path(booking), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "btn btn-danger ms-3 rounded-3 text-white #{destroy_class}" %>
       </div>
     </div>
   <% end %>
 
   <%# My Cars Section %>
   <h3 class="my-3"> My Cars</h3>
-  <% @user.cars_as_owner.each do |car| %>
+  <% @user.cars_as_owner.order("id").each do |car| %>
     <div class="card mb-3 p-2">
       <% brand_model = "#{car.brand} #{car.model}" %>
       <h4><%= link_to brand_model, car %></h4>
@@ -43,12 +47,28 @@
           <h6 class="m-3"><strong>Active Bookings</strong></h6>
 
           <div class="card mb-3">
-            <% active_bookings = car.bookings.select { |booking| booking.status == 'active' } %>
+            <% active_bookings = car.bookings.order("id").select { |booking| booking.status == 'active' || booking.status == 'destroying' } %>
             <% active_bookings.each do |booking| %>
               <div class="card m-3">
                 <p>Renter: <%= booking.renter.first_name %> <%= booking.renter.last_name %></p>
                 <p>Total income: <%= number_to_currency booking.total_cost, precision: 0 %></p>
                 <p>From <%= booking.start_date.strftime("%d/%b/%Y") %> to <%= booking.end_date.strftime("%d/%b/%Y") %> (<%= booking.duration %> days)</p>
+                <%# if booking.status == 'destroying' %>
+                <% destroy_class = booking.status == 'destroying' ? '' : 'd-none' %>
+                <div class=" mt-4 m-2 fw-bold <%= destroy_class %>">
+                  <p class="m-0">Renter requested the deletion of this booking.</p>
+                  <p class="m-0">What would you like to do?</p>
+                  <div class="d-flex align-items-end">
+                    <div>
+                      <%= link_to 'Delete Booking', booking_path(booking), class: 'btn btn-danger fw-bold me-3', data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
+                    </div>
+
+                    <%= simple_form_for booking do |f| %>
+                      <%= f.input :status, as: :hidden, input_html: { value: 'active'} %>
+                      <%= f.submit 'Keep booking', class: 'btn btn-success fw-bold' %>
+                    <% end %>
+                  </div>
+                </div>
               </div>
             <% end %>
           </div>
@@ -56,7 +76,7 @@
           <h6 class="m-3"><strong>Pending Bookings</strong></h6>
 
           <div class="card">
-            <% pending_bookings = car.bookings.select { |booking| booking.status == 'pending' } %>
+            <% pending_bookings = car.bookings.order("id").select { |booking| booking.status == 'pending' } %>
             <% pending_bookings.each do |booking| %>
               <div class="card m-3">
                 <p>Renter <%= booking.renter.first_name %> <%= booking.renter.last_name %></p>
