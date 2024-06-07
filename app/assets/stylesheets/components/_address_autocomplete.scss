@@ -10,3 +10,7 @@
 .mapboxgl-ctrl-top-right {
   width: 90%;
 }
+
+.mapboxgl-control-container .mapboxgl-ctrl-geocoder.mapboxgl-ctrl {
+  display: none;
+}

@@ -1,19 +1,22 @@
-<div class="row">
-  <div class="col-3">
-    <ul>
-    <% @cars.each do |car| %>
-      <li><%=link_to car.model, car_path(car) %></li>
-    <% end %>
+<div class="container mt-3" data-controller="map"
+    data-map-markers-value="<%= @markers.to_json %>"
+    data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+  <div class="col-12 my-3" data-map-target="mainSearch"></div>
+  <div class="row">
+    <div class="col-3">
+      <ul data-map-target="carList">
+      <% @cars.each do |car| %>
+        <li><%=link_to car.model, car_path(car) %></li>
+      <% end %>
 
-    <%= link_to 'List your car for rent!', new_car_path, class: 'btn btn-primary mt-3' %>
-  </ul>
+      <%= link_to 'List your car for rent!', new_car_path, class: 'btn btn-primary mt-3' %>
+    </ul>
 
-  </div>
-  <div class="col-9">
-    <div style="width: 100%; height: 600px;"
-      data-controller="map"
-      data-map-markers-value="<%= @markers.to_json %>"
-      data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+    </div>
+    <div class="col-9">
+      <div style="width: 100%; height: 600px;"
+      data-map-target="pageMap">
+      </div>
     </div>
   </div>
 </div>
